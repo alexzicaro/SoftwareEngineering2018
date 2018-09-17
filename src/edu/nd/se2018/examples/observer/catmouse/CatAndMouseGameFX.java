@@ -27,7 +27,8 @@ public class CatAndMouseGameFX extends Application{
 	
 		mouse = new Mouse();
 		
-		int catCount = 1;
+
+		int catCount = 3;
 		
 		// Create cats
 		for(int j = 0; j < catCount; j++)
