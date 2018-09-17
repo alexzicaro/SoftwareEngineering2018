@@ -16,25 +16,25 @@ public class OceanMap
 		{
 			for(int j = 0; j < dimensions; j++) 
 			{
-				Rectangle rect = new Rectangle(i * scalingFactor, j * scalingFactor, scalingFactor, scalingFactor);
-				rect.setStroke(Color.BLACK);
-				rect.setFill(Color.TURQUOISE);
-				root.add(rect);
+				Rectangle ocean = new Rectangle(i * scalingFactor, j * scalingFactor, scalingFactor, scalingFactor);
+				ocean.setStroke(Color.BLACK);
+				ocean.setFill(Color.TURQUOISE);
+				root.add(ocean);
 				oceanGrid[i][j] = 0;
 			}
 		}
 		
-		for(int k = 0; k < 50; k++) 
+		for(int i = 0; i < 50; i++) 
 		{
 			int islandX = (int)((25)*Math.random());
 			int islandY = (int)((25)*Math.random());
 			
 			if(oceanGrid[islandX][islandY] == 0) 
 			{
-				Rectangle rect = new Rectangle(islandX * scalingFactor, islandY * scalingFactor, scalingFactor, scalingFactor);
-				rect.setStroke(Color.BLACK);
-				rect.setFill(Color.GREEN);
-				root.add(rect);
+				Rectangle island = new Rectangle(islandX * scalingFactor, islandY * scalingFactor, scalingFactor, scalingFactor);
+				island.setStroke(Color.BLACK);
+				island.setFill(Color.GREEN);
+				root.add(island);
 				oceanGrid[islandX][islandY] = 1;
 			}
 		}
