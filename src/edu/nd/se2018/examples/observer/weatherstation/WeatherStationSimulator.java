@@ -10,8 +10,6 @@ public class WeatherStationSimulator {
 		new WeatherView2(weatherStation);
 		
 		weatherStation.setTemperature(70);
-		weatherStation.setOutlook(Outlook.SUNNY);
-
-		//weatherStation.displayWeather(); 		
+		weatherStation.setOutlook(Outlook.SUNNY);	
 	}
 }
