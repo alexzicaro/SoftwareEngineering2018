@@ -47,7 +47,7 @@ public class CarFactory {
 					car.setGateDownFlag(true);
 			}
 			
-			// Each car must observe the car infront of it so it doesn't collide with it.
+			// Each car must observe the car infront of it so it doesn't collide with it
 			if (previousCar != null)
 				previousCar.addObserver(car);
 			previousCar = car;
