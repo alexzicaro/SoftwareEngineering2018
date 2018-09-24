@@ -58,7 +58,7 @@ public class CarFactory {
 			return null;
 	}
 
-	// We will get a concurrency error if we try to delete cars whilst iterating through the array list
+	// We will get a concurrency error if we try to delete cars whilst iterating through the array  list
 	// so we perform this in two stages.
 	// 1.  Loop through the list and identify which cars are off the screen.  Add them to 'toDelete' array.
 	// 2.  Iterate through toDelete and remove the cars from the original arrayList.
