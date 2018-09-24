@@ -33,7 +33,7 @@ public class CarFactory {
 	}
 	
 	
-	// Most code here is to create random speeds
+	// Most code here is to create random speeds 
 	public Car buildCar(){
 		if (previousCar == null || location.y < previousCar.getVehicleY()-100){
 			Car car = new Car(location.x,location.y, gates, otherGate);	
