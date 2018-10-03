@@ -30,7 +30,7 @@ public class LevelMap
 				blankImageView.setX(i * scalingFactor);
 				blankImageView.setY(j * scalingFactor);
 				root.add(blankImageView);
-				oceanGrid[i][j] = 0;
+				oceanGrid[i][j] = 0; 
 			}
 		}
 		for(int i = 0; i < 2; i++) //Outer West and East walls
