@@ -8,63 +8,64 @@ import java.util.Observer;
 
 public class Chip extends Observable
 {
-	int redKey = 0;
+	int redKey = 0;	//Keep track of how many keys and chips chip has
 	int blueKey = 0;
 	int yellowKey = 0;
 	int greenKey = 0;
+	int chips = 0;
 
 	List<Observer> observers = new LinkedList<Observer>();
-	Point shipLocation = new Point();
+	Point chipLocation = new Point();
 	
 	public Chip()
 	{
-		shipLocation.x = 12; 
-		shipLocation.y = 12;
+		chipLocation.x = 12; 
+		chipLocation.y = 12;
 	}
 	
-	public Point getShipLocation() 
+	public Point getChipLocation() 
 	{
-		return shipLocation;
+		return chipLocation;
 	}
 	
 	public void goNorth()
 	{
-		if(this.shipLocation.y - 1 >= 0)
+		if(this.chipLocation.y - 1 >= 0)
 		{
-			this.shipLocation.y -= 1; 
-//			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
-//			notifyObservers();  // Now notify observers.
+			this.chipLocation.y -= 1; 
+			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
+			notifyObservers();  // Now notify observers.
 		}
 		
 	}
 	
 	public void goSouth()
 	{
-		if(this.shipLocation.y + 1 <= 24)
+		if(this.chipLocation.y + 1 <= 24)
 		{
-			this.shipLocation.y += 1;
-//			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
-//			notifyObservers();  // Now notify observers.
+			this.chipLocation.y += 1;
+			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
+			notifyObservers();  // Now notify observers.
 		}
 	}
 	
 	public void goEast() 
 	{
-		if(this.shipLocation.x + 1 <= 24)
+		if(this.chipLocation.x + 1 <= 24)
 		{
-			this.shipLocation.x += 1;
-//			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
-//			notifyObservers();  // Now notify observers.
+			this.chipLocation.x += 1;
+			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
+			notifyObservers();  // Now notify observers.
 		}
 	}
 	
 	public void goWest() 
 	{
-		if(this.shipLocation.x - 1 >= 0)
+		if(this.chipLocation.x - 1 >= 0)
 		{
-			this.shipLocation.x -= 1;
-//			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
-//			notifyObservers();  // Now notify observers.
+			this.chipLocation.x -= 1;
+			setChanged();		// The observable object has moved.  To include recent changes you *MUST* have this line
+			notifyObservers();  // Now notify observers.
 		}
 	}
 	
@@ -87,4 +88,35 @@ public class Chip extends Observable
 	{
 		return blueKey;
 	}
+	
+	public void changeRedKeys(int change)
+	{
+		redKey += change;
+	}
+	
+	public void changeGreenKeys(int change)
+	{
+		greenKey += change;
+	}
+	public void changeYellowKeys(int change)
+	{
+		yellowKey += change;
+	}
+	public void changeBlueKeys(int change)
+	{
+		blueKey += change;
+	}
+	public void addChip()
+	{
+		chips++;
+	}
+	public int getTotalChips()
+	{
+		return chips;
+	}
+	public void reset() 
+	{
+		blueKey = redKey= yellowKey = greenKey = chips = 0;
+	}
+	
 }

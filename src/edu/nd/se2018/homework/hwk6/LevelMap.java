@@ -4,22 +4,41 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class LevelMap 
+public abstract class LevelMap
 {
-	static int[][] oceanGrid = new int[25][25]; 
-	final int dimensions = 25;
+	int[][] oceanGrid;
+	final int dimensions;
+	int totalChips;
+	Enemy [] enemies;
+	LevelMap2 levelMap2;
 	
-	public void drawLevel1Map(ObservableList<Node> root, int scalingFactor) 
+	public LevelMap(int size)
 	{
-		drawOuterWalls(root, scalingFactor);
-		drawWalls1(root, scalingFactor);
-		drawSpecialSpaces1(root, scalingFactor);
+		oceanGrid = new int[size][size]; 
+		dimensions = 25;
+		totalChips = 0;
 	}
 	
-	public void drawOuterWalls(ObservableList<Node> root, int scalingFactor)
+	public void drawLevelMap1(ObservableList<Node> root, int scalingFactor) //Draw  first map by calling it and drawing outer walls
+	{
+		drawOuterWalls(root, scalingFactor);
+		LevelMap1 levelMap1 = new LevelMap1(25);
+		this.oceanGrid = levelMap1.drawLevelMap1(root, scalingFactor, oceanGrid);
+		totalChips = levelMap1.getTotalChips();
+	}
+	public void drawLevelMap2(ObservableList<Node> root, int scalingFactor) //Same as above but for second map
+	{
+		drawOuterWalls(root, scalingFactor);
+		levelMap2 = new LevelMap2(25);
+		this.oceanGrid = levelMap2.drawLevelMap2(root, scalingFactor, oceanGrid);
+		totalChips = levelMap2.getTotalChips();
+	}
+	
+	public void drawOuterWalls(ObservableList<Node> root, int scalingFactor)//Draw the default outer walls
 	{
 		for(int i = 0; i < dimensions; i++) //Blank tiles
 		{
@@ -64,161 +83,68 @@ public class LevelMap
 		}
 	}
 	
-	public void drawWalls1(ObservableList<Node> root, int scalingFactor)
-	{
-		for(int i = 0; i < 3; i++) //Inner  Veritcal walls
-		{
-			for(int j = 0; j < 15; j++)
-			{
-				int wallX = (int)(i * 5 + 10);
-				int wallY = (int)(j + 5);
-				Image wallImage = new Image("images/wall.png",scalingFactor,scalingFactor,true,true); 
-				ImageView wallImageView = new ImageView(wallImage);
-				wallImageView.setX(wallX * scalingFactor);
-				wallImageView.setY(wallY * scalingFactor);
-				root.add(wallImageView);
-				oceanGrid[wallX][wallY] = 1;
-			}
-		}
-		
-		for(int i = 0; i < 3; i++) //Inner Left Horizontal walls
-		{
-			for(int j = 0; j < 5; j++)
-			{
-				int wallY = (int)(i * 5 + 10);
-				int wallX = (int)(j + 5);
-				Image wallImage = new Image("images/wall.png",scalingFactor,scalingFactor,true,true); 
-				ImageView wallImageView = new ImageView(wallImage);
-				wallImageView.setX(wallX * scalingFactor);
-				wallImageView.setY(wallY * scalingFactor);
-				root.add(wallImageView);
-				oceanGrid[wallX][wallY] = 1;
-			}
-		}
-		
-		for(int i = 0; i < 3; i++) //Inner Right Horizontal walls
-		{
-			for(int j = 10; j < 15; j++)
-			{
-				int wallY = (int)(i * 5 + 10);
-				int wallX = (int)(j + 5);
-				Image wallImage = new Image("images/wall.png",scalingFactor,scalingFactor,true,true); 
-				ImageView wallImageView = new ImageView(wallImage);
-				wallImageView.setX(wallX * scalingFactor);
-				wallImageView.setY(wallY * scalingFactor);
-				root.add(wallImageView);
-				oceanGrid[wallX][wallY] = 1;
-			}
-		}
-	}
 	
-	public void drawSpecialSpaces1(ObservableList<Node> root, int scalingFactor)
+	public boolean checkForIsland(int x, int y) 
 	{
-		Image yellowBlockImage = new Image("images/yellowKeyWall.png",scalingFactor,scalingFactor,true,true); 
-		Image greenBlockImage = new Image("images/greenKeyWall.png",scalingFactor,scalingFactor,true,true); 
-		Image blueBlockImage = new Image("images/blueKeyWall.png",scalingFactor,scalingFactor,true,true); 
-		Image redBlockImage = new Image("images/redKeyWall.png",scalingFactor,scalingFactor,true,true); 
-		
-		Image chipItemImage = new Image("images/chipItem.png",scalingFactor,scalingFactor,true,true); 
-
-		Image yellowKeyImage = new Image("images/yellowKey.png",scalingFactor,scalingFactor,true,true); 
-		Image greenKeyImage = new Image("images/greenKey.png",scalingFactor,scalingFactor,true,true); 
-		Image blueKeyImage = new Image("images/blueKey.png",scalingFactor,scalingFactor,true,true); 
-		Image redKeyImage = new Image("images/redKey.png",scalingFactor,scalingFactor,true,true); 
-		
-		Image targetImage = new Image("images/target.png",scalingFactor,scalingFactor,true,true); 
-
-		
-		ImageView chipItemImageView;
-		ImageView blockImageView;
-		
-		blockImageView = new ImageView(yellowBlockImage);
-		blockImageView.setX(10 * scalingFactor);
-		blockImageView.setY(6 * scalingFactor);
-		root.add(blockImageView);
-		oceanGrid[10][6] = 2;
-		
-		blockImageView = new ImageView(blueBlockImage);
-		blockImageView.setX(10 * scalingFactor);
-		blockImageView.setY(18 * scalingFactor);
-		root.add(blockImageView);
-		oceanGrid[10][18] = 4;
-		
-		blockImageView = new ImageView(greenBlockImage);
-		blockImageView.setX(15 * scalingFactor);
-		blockImageView.setY(12 * scalingFactor);
-		root.add(blockImageView);
-		oceanGrid[15][12] = 3;
-	
-		blockImageView = new ImageView(redBlockImage);
-		blockImageView.setX(15 * scalingFactor);
-		blockImageView.setY(7 * scalingFactor);
-		root.add(blockImageView);
-		oceanGrid[15][7] = 5;
-		
-		ImageView keyImageView = new ImageView(blueKeyImage);
-		keyImageView.setX(12 * scalingFactor);
-		keyImageView.setY(7 * scalingFactor);
-		root.add(keyImageView);
-		oceanGrid[12][7] = 8;
-		
-		keyImageView = new ImageView(greenKeyImage);
-		keyImageView.setX(8 * scalingFactor);
-		keyImageView.setY(17 * scalingFactor);
-		root.add(keyImageView);
-		oceanGrid[8][17] = 7;
-		
-		keyImageView = new ImageView(yellowKeyImage);
-		keyImageView.setX(17 * scalingFactor);
-		keyImageView.setY(13 * scalingFactor);
-		root.add(keyImageView);
-		oceanGrid[17][13] = 6;
-		
-		keyImageView = new ImageView(redKeyImage);
-		keyImageView.setX(8 * scalingFactor);
-		keyImageView.setY(7 * scalingFactor);
-		root.add(keyImageView);
-		oceanGrid[8][7] = 9;
-		
-		chipItemImageView = new ImageView(chipItemImage);
-		chipItemImageView.setX(7 * scalingFactor);
-		chipItemImageView.setY(9 * scalingFactor);
-		root.add(chipItemImageView);
-		oceanGrid[7][9] = -1;
-		
-		chipItemImageView = new ImageView(chipItemImage);
-		chipItemImageView.setX(6 * scalingFactor);
-		chipItemImageView.setY(17 * scalingFactor);
-		root.add(chipItemImageView);
-		oceanGrid[5][17] = -1;
-		
-		chipItemImageView = new ImageView(chipItemImage);
-		chipItemImageView.setX(17 * scalingFactor);
-		chipItemImageView.setY(8 * scalingFactor);
-		root.add(chipItemImageView);
-		oceanGrid[17][8] = -1;
-		
-		chipItemImageView = new ImageView(chipItemImage);
-		chipItemImageView.setX(17 * scalingFactor);
-		chipItemImageView.setY(12 * scalingFactor);
-		root.add(chipItemImageView);
-		oceanGrid[17][12] = -1;
-		
-		ImageView targetImageView = new ImageView(targetImage);
-		targetImageView.setX(14 * scalingFactor);
-		targetImageView.setY(19 * scalingFactor);
-		root.add(targetImageView);
-		oceanGrid[17][12] = -1;
-		
-	}
-	
-	public static boolean checkForIsland(int x, int y) 
-	{
-		if(oceanGrid[x][y] == 1)	//Whenever this is called, I have to handle the case of if there is a door and check the key
+		if(oceanGrid[x][y] != 0)	//Check to see if there is an island, aka the value is not a blank space
 		{
 			return false;
 		}
 		return true;
+	}
+	
+	
+	public void setPosition(int set, int x, int y)
+	{
+		this.oceanGrid[x][y] = set;
+	}
+	
+	public int getSpecialSpace(int x, int y)	//Return the value of the space if it is not blank, -1 if blank
+	{
+		if(oceanGrid[x][y] != 0 && oceanGrid[x][y] != 1)
+		{
+			return oceanGrid[x][y];
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	
+	public int [][] getOceanGrid()
+	{
+		return oceanGrid;
+	}
+	
+	public void makeBlank(ObservableList<Node> root, int x, int y)	//Takes a position and makes it a blank space
+	{
+		Image blankImage = new Image("images/blankTile.png",dimensions,dimensions,true,true); 
+		ImageView blankImageView = new ImageView(blankImage);
+		blankImageView.setX(x * dimensions);
+		blankImageView.setY(y * dimensions);
+		root.add(blankImageView);
+		oceanGrid[x][y] = 0;
+	}
+	
+	public void setTotalChips(int totalChips)
+	{
+		this.totalChips = totalChips;
+	}
+	
+	public int getTotalChips()
+	{
+		return totalChips;
+	}
+	
+	public void setEnemies(Enemy [] enemies)
+	{
+		this.enemies = enemies;
+
+	}
+	
+	public Enemy [] getEnemies()
+	{
+		return enemies;
 	}
 
 
